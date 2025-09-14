@@ -1,0 +1,21 @@
+from ultralytics import YOLO
+
+def main():
+    # Load model (YOLOv11 nano or small)
+    model = YOLO("models/yolov11n.pt")
+
+    # Train model
+    model.train(
+        data="data/data.yaml",   # dataset config (from CVAT/Roboflow export)
+        epochs=50,
+        imgsz=640,
+        batch=16,
+        name="illegal_parking_yolo",
+        device=0  # GPU (set -1 for CPU)
+    )
+
+    # Save best weights
+    model.export(format="onnx")  # optional for deployment
+
+if __name__ == "__main__":
+    main()
